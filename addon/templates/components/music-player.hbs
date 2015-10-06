@@ -1,3 +1,72 @@
+<div class="player {{'if' isOpen 'open' ''}}">
+  <div class="player-max">
+    <div class="player-data-sm">
+      <p><span>{{current_time}}</span> / 3:11</p>
+      <h2>{{playing.artist}}</h2>
+    </div>
+    <div class="player-img">
+      <h2>{{playing.artist}}</h2>
+      <div class="progress">
+          <div class="progress-bar" style="width: 62%;"></div>
+      </div>
+      <img src="{{playing.cover}}" />
+    </div>
+    <div class="player-data">
+      <div class="progress">
+          <div class="progress-bar" style="width: 62%;"></div>
+      </div>
+      <p><span>{{current_time}}</span> / 3:11</p>
+      <h2>{{playing.title}}</h2>
+      <h3>{{playing.artist}}</h3>
+    </div>
+    <div class="player-controls">
+      <ul>
+        <li>
+          <a href="#" {{action 'playerClose'}}></a>
+        </li>
+        <li>
+          <a href="#" class="icon-p_previous"></a>
+        </li>
+        {{#if isPlaying}}
+        <li>
+          <a href="" {{action 'playAudio'}} class="icon-p_play"></a>
+        </li>
+        {{else}}
+        <li>
+          <a href="#" {{action 'pauseAudio'}} class="icon-p_pause"></a>
+        </li>
+        {{/if}}
+        <li>
+          <a href="#" class="icon-p_next"></a>
+        </li>
+        <li>
+          <a href="#" class="icon-newsong"></a>
+        </li>
+      </ul>
+    </div>
+  </div>
+  <div class="player-min" {{action 'playerOpen'}}>
+    <div class="progress">
+        <div class="progress-bar" style="width: 62%;"></div>
+    </div>
+    <div class="player-min-img">
+      <img src="{{playing.cover}}" />
+    </div>
+    <div class="player-min-data">
+      <p><span>{{current_time}}</span> / 3:11</p>
+      <h2>{{playing.title}}</h2>
+      <h3>{{playing.artist}}</h3>
+    </div>
+  </div>
+  <ul class="playlist">
+    {{#each playlist as |song|}}
+      <li {{action 'playAudio' song}}>{{song.title}}</li>
+    {{/each}}
+  </ul>
+</div>
+<!--
+
+
 <div class="player">
 <div class="pl">{{status}}</div>
 <div class="title">{{playing.title}}</div>
@@ -28,3 +97,4 @@
     <li {{action 'playAudio' song}}>{{song.title}}</li>
   {{/each}}
 </ul>
+-->
