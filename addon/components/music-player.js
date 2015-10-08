@@ -88,7 +88,7 @@ export default Ember.Component.extend({
         song = this.get('playlist')[0];
       }
 
-      this.set('current_song', new Audio('data/' + song.file.mp3));
+      this.set('current_song', new Audio(song.file.mp3));
 
       const current_song = this.get('current_song');
 
