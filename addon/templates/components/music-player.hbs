@@ -63,7 +63,7 @@
     </div>
   </div>
 </div>
-<ul class="playlist">
+<ul class="playlist" style="display: none;">
   {{#each playlist as |song|}}
     <li {{action 'playAudio' song}}>{{song.title}}</li>
   {{/each}}
