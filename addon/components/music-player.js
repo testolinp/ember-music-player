@@ -78,6 +78,10 @@ export default Ember.Component.extend({
     });
   },
 
+  playlistUpdate: Ember.observer('playlist', function() {
+    this.send('playAudio');
+  }),
+
   actions: {
     playAudio( audio ) {
       let song = audio;
@@ -97,6 +101,12 @@ export default Ember.Component.extend({
       this.handleMeta( song );
 
       current_song.play();
+
+      current_song.addEventListener('loadedmetadata', () => {
+        current_song.play();
+        this.set('timeDuration', Math.round(current_song.duration));
+        console.log(current_song.duration);
+      });
 
       this.set('isPlaying', true);
 
