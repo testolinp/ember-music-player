@@ -6,6 +6,7 @@ export default Ember.Component.extend({
   volume: 15,
 
   isPlaying: false,
+  isOpen: false,
   volumeRange: false,
 
   playing: {
@@ -84,6 +85,14 @@ export default Ember.Component.extend({
   }),
 
   actions: {
+    playerOpen() {
+      this.set('isOpen', true);
+    },
+
+    playerClose() {
+      this.set('isOpen', false);
+    },
+
     playAudio( audio ) {
       let song = audio;
 
