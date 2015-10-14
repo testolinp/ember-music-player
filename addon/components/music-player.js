@@ -104,7 +104,6 @@ export default Ember.Component.extend({
       current_song.play();
 
       current_song.addEventListener('loadedmetadata', () => {
-        current_song.play();
         this.set('timeDuration', Math.round(current_song.duration));
         console.log(current_song.duration);
       });
