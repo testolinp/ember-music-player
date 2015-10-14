@@ -1,7 +1,7 @@
 <div class="player {{'if' isOpen 'open' ''}}">
   <div class="player-max">
     <div class="player-data-sm">
-      <p><span>{{current_time}}</span> / 3:11</p>
+      <p><span>{{current_time}}</span> / {{timeDuration}}</p>
       <h2>{{playing.artist}}</h2>
     </div>
     <div class="player-img">
@@ -15,7 +15,7 @@
       <div class="progress">
           <div class="progress-bar" style="width: 62%;"></div>
       </div>
-      <p><span>{{current_time}}</span> / 3:11</p>
+      <p><span>{{current_time}}</span> / {{timeDuration}}</p>
       <h2>{{playing.title}}</h2>
       <h3>{{playing.artist}}</h3>
     </div>
@@ -54,7 +54,7 @@
       <img src="{{playing.cover}}" />
     </div>
     <div class="player-min-data">
-      <p><span>{{current_time}}</span> / 3:11</p>
+      <p><span>{{current_time}}</span> / {{timeDuration}}</p>
       <h2>{{playing.title}}</h2>
       <h3>{{playing.artist}}</h3>
     </div>

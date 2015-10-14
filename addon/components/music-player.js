@@ -27,7 +27,7 @@ export default Ember.Component.extend({
     current_song.addEventListener('timeupdate', () => {
       let time = parseInt(current_song.currentTime, 10);
 
-      this.set('current_time', time);
+      this.set('current_time', moment.duration(time, "minutes").format("h:mm"));
     });
   },
 
@@ -114,9 +114,10 @@ export default Ember.Component.extend({
       current_song.play();
 
       current_song.addEventListener('loadedmetadata', () => {
-        this.set('timeDuration', Math.round(current_song.duration));
-        console.log(current_song.duration);
+        this.set('timeDuration', moment.duration(current_song.duration, "minutes").format("h:mm"));
       });
+
+
 
     },
 
