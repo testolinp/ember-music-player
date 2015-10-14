@@ -6,6 +6,7 @@ export default Ember.Component.extend({
   volume: 15,
 
   isPlaying: false,
+  volumeRange: false,
 
   playing: {
     title: '',
@@ -124,6 +125,10 @@ export default Ember.Component.extend({
     stopAudio() {
       this.stopCurrentSong();
       this.set('isPlaying', false);
+    },
+
+    showVolume() {
+      this.set('volumeRange', !this.get('volumeRange'));
     }
   }
 });

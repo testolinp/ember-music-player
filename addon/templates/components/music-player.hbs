@@ -27,20 +27,18 @@
         <li>
           <a href="#" class="icon-p_previous"></a>
         </li>
-        {{#if playingAudio}}
         <li>
-          <a href="" {{action 'playAudio'}} class="icon-p_play"></a>
+          {{#if isPlaying}}
+          <a class="pause" {{action 'pauseAudio'}} class="icon-p_pause"></a>
+          {{else}}
+          <a class="play" {{action 'playAudio'}}class="icon-p_play"></a>
+          {{/if}}
         </li>
-        {{else}}
-        <li>
-          <a href="#" {{action 'pauseAudio'}} class="icon-p_pause"></a>
-        </li>
-        {{/if}}
         <li>
           <a href="#" class="icon-p_next"></a>
         </li>
-        <li class="volume">
-          <a href="#" class="icon-newsong"></a>
+        <li class="volume {{'if' volumeRange 'show' ''}}">
+          <a href="#" {{action 'showVolume'}} class="icon-newsong"></a>
           <div class="range">
             {{input type="range" min="0" max="100" value=volume}}
             {{volume}}
