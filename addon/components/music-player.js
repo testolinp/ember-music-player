@@ -8,6 +8,8 @@ export default Ember.Component.extend({
   isPlaying: false,
   isOpen: false,
   volumeRange: false,
+  timeDuration: 0,
+  timeProgress: 0,
 
   playing: {
     title: '',
@@ -17,7 +19,7 @@ export default Ember.Component.extend({
 
   current_song: null,
 
-  handleMeta( song ) {
+  handleMeta( song, timeLong ) {
     let current_song = this.get('current_song');
 
     this.set('playing.title', song.title);
@@ -26,8 +28,10 @@ export default Ember.Component.extend({
 
     current_song.addEventListener('timeupdate', () => {
       let time = parseInt(current_song.currentTime, 10);
+      let progress = ((time * 100) / timeLong).toFixed(1);
 
       this.set('current_time', moment.duration(time, "minutes").format("h:mm"));
+      this.set('timeProgress', progress);
     });
   },
 
@@ -70,13 +74,9 @@ export default Ember.Component.extend({
         this.send('playAudio', next_index);
 
       } else {
-
         this.send('stopAudio');
         this.cleanMeta();
-
       }
-
-
     });
   },
 
@@ -109,16 +109,14 @@ export default Ember.Component.extend({
 
       this.handleVolume();
       this.handlePlaylist( song );
-      this.handleMeta( song );
 
       current_song.play();
 
       current_song.addEventListener('loadedmetadata', () => {
-        this.set('timeDuration', moment.duration(current_song.duration, "minutes").format("h:mm"));
+        let timeLong = current_song.duration;
+        this.handleMeta( song, moment.duration(timeLong, "seconds").format("s"));
+        this.set('timeDuration', moment.duration(timeLong, "minutes").format("h:mm"));
       });
-
-
-
     },
 
     pauseAudio() {

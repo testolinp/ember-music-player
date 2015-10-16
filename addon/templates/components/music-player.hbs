@@ -7,13 +7,13 @@
     <div class="player-img">
       <h2>{{playing.artist}}</h2>
       <div class="progress">
-          <div class="progress-bar" style="width: 62%;"></div>
+          <div class="progress-bar" style="width: {{timeProgress}}%;"></div>
       </div>
       <img src="{{playing.cover}}" />
     </div>
     <div class="player-data">
       <div class="progress">
-          <div class="progress-bar" style="width: 62%;"></div>
+          <div class="progress-bar" style="width: {{timeProgress}}%;"></div>
       </div>
       <p><span>{{current_time}}</span> / {{timeDuration}}</p>
       <h2>{{playing.title}}</h2>
@@ -48,7 +48,7 @@
   </div>
   <div class="player-min" {{action 'playerOpen'}}>
     <div class="progress">
-        <div class="progress-bar" style="width: 62%;"></div>
+        <div class="progress-bar" style="width: {{timeProgress}}%;"></div>
     </div>
     <div class="player-min-img">
       <img src="{{playing.cover}}" />
