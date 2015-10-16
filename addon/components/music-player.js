@@ -102,7 +102,7 @@ export default Ember.Component.extend({
         song = this.get('playlist')[0];
       }
 
-      //this.set('current_song', new Audio('data/' + song.file.mp3));
+      // this.set('current_song', new Audio('data/' + song.file.mp3));
       this.set('current_song', new Audio(song.file.mp3));
 
       const current_song = this.get('current_song');
@@ -111,6 +111,8 @@ export default Ember.Component.extend({
       this.handlePlaylist( song );
 
       current_song.play();
+      this.set('isPlaying', true);
+      console.log('current_song', current_song);
 
       current_song.addEventListener('loadedmetadata', () => {
         let timeLong = current_song.duration;
@@ -124,8 +126,10 @@ export default Ember.Component.extend({
 
       if ( current_song && !current_song.paused ) {
         current_song.pause();
-      } else if ( current_song ){
+        this.set('isPlaying', false);
+      } else {
         current_song.play();
+        this.set('isPlaying', true);
       }
 
     },

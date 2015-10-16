@@ -28,11 +28,7 @@
           <a href="#" class="icon-p_previous"></a>
         </li>
         <li>
-          {{#if isPlaying}}
-          <a {{action 'pauseAudio'}} class="icon-p_pause"></a>
-          {{else}}
-          <a {{action 'playAudio'}} class="icon-p_play"></a>
-          {{/if}}
+          <a {{action 'pauseAudio'}} class="{{'if' isOpen 'icon-p_pause' 'icon-p_play'}}"></a>
         </li>
         <li>
           <a href="#" class="icon-p_next"></a>
