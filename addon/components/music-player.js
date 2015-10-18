@@ -8,6 +8,7 @@ export default Ember.Component.extend({
   isPlaying: false,
   isOpen: false,
   volumeRange: false,
+  pauseOnInit: false,
   timeDuration: 0,
   timeProgress: 0,
 
@@ -18,13 +19,6 @@ export default Ember.Component.extend({
   },
 
   current_song: null,
-
-  initialize: Ember.on('init', function () {
-    let current_song = this.get('current_song');
-
-    current_song.pause();
-    this.set('isPlaying', false);
-  }),
 
   handleMeta( song, timeLong ) {
     let current_song = this.get('current_song');
@@ -88,6 +82,7 @@ export default Ember.Component.extend({
   },
 
   playlistUpdate: Ember.observer('playlist', function() {
+    console.log('playAudio', playAudio);
     this.send('playAudio');
   }),
 
