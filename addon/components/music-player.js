@@ -85,7 +85,11 @@ export default Ember.Component.extend({
     let pauseOnInit = this.get('pauseOnInit')
     console.log('pauseOnInit', pauseOnInit);
 
-    this.send('playAudio');
+    if(!pauseOnInit) {
+      this.set('pauseOnInit', true);
+    }else {
+      this.send('playAudio');
+    }
   }),
 
   actions: {
