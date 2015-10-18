@@ -82,7 +82,9 @@ export default Ember.Component.extend({
   },
 
   playlistUpdate: Ember.observer('playlist', function() {
+    let pauseOnInit = this.get('pauseOnInit')
     console.log('pauseOnInit', pauseOnInit);
+
     this.send('playAudio');
   }),
 
