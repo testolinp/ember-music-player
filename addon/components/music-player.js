@@ -96,6 +96,7 @@ export default Ember.Component.extend({
 
     playAudio( audio ) {
       let song = audio;
+      let pauseOnInit = this.get('pauseOnInit')
 
       this.stopCurrentSong();
 
@@ -111,15 +112,12 @@ export default Ember.Component.extend({
       this.handleVolume();
       this.handlePlaylist( song );
 
-      let pauseOnInit = this.get('pauseOnInit')
-      console.log('pauseOnInit', pauseOnInit);
-
       if(!pauseOnInit) {
+        this.set('current_time', 0);
         this.set('pauseOnInit', true);
       }else {
         current_song.play();
         this.set('isPlaying', true);
-        console.log('current_song', current_song);
       }
 
       current_song.addEventListener('loadedmetadata', () => {
