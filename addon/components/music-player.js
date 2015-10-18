@@ -120,13 +120,13 @@ export default Ember.Component.extend({
         current_song.play();
         this.set('isPlaying', true);
         console.log('current_song', current_song);
-
-        current_song.addEventListener('loadedmetadata', () => {
-          let timeLong = current_song.duration;
-          this.handleMeta( song, moment.duration(timeLong, "seconds").format("s"));
-          this.set('timeDuration', moment.duration(timeLong, "minutes").format("h:mm"));
-        });
       }
+
+      current_song.addEventListener('loadedmetadata', () => {
+        let timeLong = current_song.duration;
+        this.handleMeta( song, moment.duration(timeLong, "seconds").format("s"));
+        this.set('timeDuration', moment.duration(timeLong, "minutes").format("h:mm"));
+      });
     },
 
     pauseAudio() {
