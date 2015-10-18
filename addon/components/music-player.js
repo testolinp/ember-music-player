@@ -19,6 +19,10 @@ export default Ember.Component.extend({
 
   current_song: null,
 
+  initialize: Ember.on('init', function () {
+    this.send('pauseAudio');
+  }),
+
   handleMeta( song, timeLong ) {
     let current_song = this.get('current_song');
 
