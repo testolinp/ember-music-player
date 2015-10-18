@@ -82,14 +82,7 @@ export default Ember.Component.extend({
   },
 
   playlistUpdate: Ember.observer('playlist', function() {
-    let pauseOnInit = this.get('pauseOnInit')
-    console.log('pauseOnInit', pauseOnInit);
-
-    if(!pauseOnInit) {
-      this.set('pauseOnInit', true);
-    }else {
-      this.send('playAudio');
-    }
+    this.send('playAudio');
   }),
 
   actions: {
@@ -118,15 +111,22 @@ export default Ember.Component.extend({
       this.handleVolume();
       this.handlePlaylist( song );
 
-      current_song.play();
-      this.set('isPlaying', true);
-      console.log('current_song', current_song);
+      let pauseOnInit = this.get('pauseOnInit')
+      console.log('pauseOnInit', pauseOnInit);
 
-      current_song.addEventListener('loadedmetadata', () => {
-        let timeLong = current_song.duration;
-        this.handleMeta( song, moment.duration(timeLong, "seconds").format("s"));
-        this.set('timeDuration', moment.duration(timeLong, "minutes").format("h:mm"));
-      });
+      if(!pauseOnInit) {
+        this.set('pauseOnInit', true);
+      }else {
+        current_song.play();
+        this.set('isPlaying', true);
+        console.log('current_song', current_song);
+
+        current_song.addEventListener('loadedmetadata', () => {
+          let timeLong = current_song.duration;
+          this.handleMeta( song, moment.duration(timeLong, "seconds").format("s"));
+          this.set('timeDuration', moment.duration(timeLong, "minutes").format("h:mm"));
+        });
+      }
     },
 
     pauseAudio() {
