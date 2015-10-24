@@ -109,6 +109,10 @@ export default Ember.Component.extend({
 
       this.stopCurrentSong();
 
+      if (this.$('#audioPlayerLoader')) {
+          this.$('#audioPlayerLoader').show();
+      }
+
       if ( !audio ) {
         song = this.get('playlist')[0];
       }
@@ -137,6 +141,7 @@ export default Ember.Component.extend({
           }
 
           current_song.addEventListener('loadedmetadata', () => {
+            this.$('#audioPlayerLoader').hide();
             moment.duration.fn.format.defaults.minutes = /n+/;
             let timeLong = current_song.duration;
             this.handleMeta( song, timeLong);
