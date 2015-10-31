@@ -119,34 +119,38 @@ export default Ember.Component.extend({
 
       // this.set('current_song', new Audio('data/' + song.file.mp3));
       // this.set('current_song', new Audio(song.file.mp3));
-      this.set('current_song', song.file.mp3);
+      if (song) {
+        this.set('current_song', song.file.mp3);
 
-      if (this.$('#audioPlayer')) {
+        if (this.$('#audioPlayer')) {
 
-          this.set('player', this.$('#audioPlayer')[0]);
+            this.set('player', this.$('#audioPlayer')[0]);
 
-          const current_song = this.$('#audioPlayer')[0]; //this.get('current_song');
+            const current_song = this.$('#audioPlayer')[0]; //this.get('current_song');
 
-          current_song.src = song.file.mp3;
+            current_song.src = song.file.mp3;
 
-          this.handleVolume();
-          this.handlePlaylist( song );
+            this.handleVolume();
+            this.handlePlaylist( song );
 
-          if(!pauseOnInit) {
-            this.set('current_time', 0);
-            this.set('pauseOnInit', true);
-          }else {
-            current_song.play();
-            this.set('isPlaying', true);
-          }
+            if(pauseOnInit) {
+              this.set('current_time', 0);
+              current_song.pause();
+              this.set('isPlaying', false);
+              // this.set('pauseOnInit', true);
+            }else {
+              current_song.play();
+              this.set('isPlaying', true);
+            }
 
-          current_song.addEventListener('loadedmetadata', () => {
-            this.$('#audioPlayerLoader').hide();
-            moment.duration.fn.format.defaults.minutes = /n+/;
-            let timeLong = current_song.duration;
-            this.handleMeta( song, timeLong);
-            this.set('timeDuration', moment.duration(timeLong, "seconds").format("n:ss"));
-          });
+            current_song.addEventListener('loadedmetadata', () => {
+              this.$('#audioPlayerLoader').hide();
+              moment.duration.fn.format.defaults.minutes = /n+/;
+              let timeLong = current_song.duration;
+              this.handleMeta( song, timeLong);
+              this.set('timeDuration', moment.duration(timeLong, "seconds").format("n:ss"));
+            });
+        }
       }
     },
 
