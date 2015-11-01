@@ -20,6 +20,10 @@ export default Ember.Component.extend({
 
   current_song: null,
 
+  initialize: Ember.on('init', function() {
+    this.set('current_time', '0:00');
+  }),
+
   handleMeta( song, timeLong ) {
     // let current_song = this.get('current_song');
     let current_song = this.get('player');
