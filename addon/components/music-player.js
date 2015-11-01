@@ -11,6 +11,7 @@ export default Ember.Component.extend({
   pauseOnInit: false,
   timeDuration: '0:00',
   timeProgress: 0,
+  typeClass: '',
 
   playing: {
     title: '',
