@@ -50,7 +50,7 @@ export default Ember.Component.extend({
     this.set('playing.artist', '');
     this.set('playing.cover', '');
 
-    this.set('current_time', 0);
+    this.set('current_time', '0:00');
   },
 
   stopCurrentSong() {
@@ -60,7 +60,7 @@ export default Ember.Component.extend({
     if ( current_song && !current_song.paused ) {
       current_song.pause();
       current_song.src = '';
-      current_song.currentTime = 0;
+      current_song.currentTime = '0:00';
     }
   },
 
