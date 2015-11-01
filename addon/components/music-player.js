@@ -9,7 +9,7 @@ export default Ember.Component.extend({
   isOpen: false,
   volumeRange: false,
   pauseOnInit: false,
-  timeDuration: 0,
+  timeDuration: '0:00',
   timeProgress: 0,
 
   playing: {
