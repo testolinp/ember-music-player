@@ -138,7 +138,7 @@ export default Ember.Component.extend({
             this.handlePlaylist( song );
 
             if(pauseOnInit) {
-              this.set('current_time', 0);
+              this.set('current_time', '0:00');
               current_song.pause();
               this.set('isPlaying', false);
               // this.set('pauseOnInit', true);
