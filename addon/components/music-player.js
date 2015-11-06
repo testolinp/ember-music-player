@@ -5,6 +5,7 @@ export default Ember.Component.extend({
   layout: layout,
   volume: 15,
 
+  isLoaded: false,
   isPlaying: false,
   isOpen: false,
   volumeRange: false,
@@ -23,6 +24,10 @@ export default Ember.Component.extend({
 
   initialize: Ember.on('init', function() {
     this.set('current_time', '0:00');
+
+    if (this.$('#audioPlayerLoader')) {
+        this.$('#audioPlayerLoader').hide();
+    }
   }),
 
   handleMeta( song, timeLong ) {
@@ -44,13 +49,13 @@ export default Ember.Component.extend({
       this.set('current_time', current_time);
       this.set('timeProgress', progress);
     });
+
   },
 
   cleanMeta() {
     this.set('playing.title', '');
     this.set('playing.artist', '');
     this.set('playing.cover', '');
-
     this.set('current_time', '0:00');
   },
 
@@ -73,8 +78,11 @@ export default Ember.Component.extend({
     this.get('player').volume = volume;
   }),
 
+
+  handleLoadedState: Ember.observer('isLoaded', function() {
+  }),
+
   handlePlaylist( song ) {
-    // let current_song = this.get('current_song');
     let current_song = this.get('player');
     const playlist   = this.get('playlist');
 
@@ -96,8 +104,11 @@ export default Ember.Component.extend({
     });
   },
 
-  playlistUpdate: Ember.observer('playlist', function() {
-    this.send('playAudio');
+  playlistUpdate: Ember.observer('playlist', function(a) {
+    //avoiding duplicate execution
+    if(a.__nextSuper !== undefined && !this.get('isLoaded')) {
+      this.send('playAudio');
+    }
   }),
 
   actions: {
@@ -110,65 +121,67 @@ export default Ember.Component.extend({
     },
 
     playAudio( audio ) {
-      let song = audio;
-      let pauseOnInit = this.get('pauseOnInit');
 
-      this.stopCurrentSong();
+      if (this.get('playlist').length || !!audio) {
 
-      if (this.$('#audioPlayerLoader')) {
-          this.$('#audioPlayerLoader').show();
-      }
+        let song = audio;
+        let pauseOnInit = this.get('pauseOnInit');
 
-      if ( !audio ) {
-        song = this.get('playlist')[0];
-      }
-
-      // this.set('current_song', new Audio('data/' + song.file.mp3));
-      // this.set('current_song', new Audio(song.file.mp3));
-      if (song) {
-        this.set('current_song', song.file.mp3);
-
-        if (this.$('#audioPlayer')) {
-
-            this.set('player', this.$('#audioPlayer')[0]);
-
-            const current_song = this.$('#audioPlayer')[0]; //this.get('current_song');
-
-            current_song.src = song.file.mp3;
-
-            this.handleVolume();
-            this.handlePlaylist( song );
-
-            if(pauseOnInit) {
-              this.set('current_time', '0:00');
-              current_song.pause();
-              this.set('isPlaying', false);
-              // this.set('pauseOnInit', true);
-            }else {
-              current_song.play();
-              this.set('isPlaying', true);
-            }
-
-            current_song.addEventListener('loadedmetadata', () => {
-              this.$('#audioPlayerLoader').hide();
-              moment.duration.fn.format.defaults.minutes = /n+/;
-              let timeLong = current_song.duration;
-              this.handleMeta( song, timeLong);
-              this.set('timeDuration', moment.duration(timeLong, "seconds").format("n:ss"));
-            });
+        if ( !audio ) {
+          song = this.get('playlist')[0];
         }
+
+        this.stopCurrentSong();
+
+        if (this.$('#audioPlayerLoader')) {
+            this.$('#audioPlayerLoader').show();
+        }
+
+        if (song) {
+          this.set('current_song', song.file.mp3);
+          this.set('isLoaded', true);
+
+          if (this.$('#audioPlayer')) {
+
+              const $player = this.$('#audioPlayer')[0]; //this.get('current_song');
+              $player.src = this.get('current_song');
+
+              this.set('player', $player);
+
+              this.handleVolume();
+              this.handlePlaylist( song );
+
+              if(pauseOnInit) {
+                this.set('current_time', '0:00');
+                $player.pause();
+                this.set('isPlaying', false);
+                this.set('pauseOnInit', true);
+              }else {
+                $player.play();
+                this.set('isPlaying', true);
+              }
+
+              $player.addEventListener('loadedmetadata', () => {
+                this.$('#audioPlayerLoader').hide();
+                moment.duration.fn.format.defaults.minutes = /n+/;
+                let timeLong = $player.duration;
+                this.handleMeta( song, timeLong);
+                this.set('timeDuration', moment.duration(timeLong, "seconds").format("n:ss"));
+              });
+          }
+        }
+
       }
     },
 
     pauseAudio() {
-      // let current_song = this.get('current_song');
-      let current_song = this.get('player');
+      const $player = this.get('player');
 
-      if ( current_song && !current_song.paused ) {
-        current_song.pause();
+      if ( $player && !$player.paused ) {
+        $player.pause();
         this.set('isPlaying', false);
       } else {
-        current_song.play();
+        $player.play();
         this.set('isPlaying', true);
       }
 
