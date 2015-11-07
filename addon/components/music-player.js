@@ -5,6 +5,8 @@ export default Ember.Component.extend({
   layout: layout,
   volume: 15,
 
+  pausePlayer: false,
+
   isLoaded: false,
   isPlaying: false,
   isOpen: false,
@@ -80,6 +82,12 @@ export default Ember.Component.extend({
 
 
   handleLoadedState: Ember.observer('isLoaded', function() {
+  }),
+
+  handleExternalPause: Ember.observer('pausePlayer', function() {
+    if (this.get('pausePlayer')) {
+      this.send('pauseAudio');
+    }
   }),
 
   handlePlaylist( song ) {
@@ -161,6 +169,9 @@ export default Ember.Component.extend({
                 this.set('isPlaying', true);
               }
 
+              let parentController = this.get('targetObject');
+              parentController.send('playingAudio', this.get('isPlaying'));
+
               $player.addEventListener('loadedmetadata', () => {
                 this.$('#audioPlayerLoader').hide();
                 moment.duration.fn.format.defaults.minutes = /n+/;
@@ -185,11 +196,17 @@ export default Ember.Component.extend({
         this.set('isPlaying', true);
       }
 
+      let parentController = this.get('targetObject');
+      parentController.send('playingAudio', this.get('isPlaying'));
+
     },
 
     stopAudio() {
       this.stopCurrentSong();
       this.set('isPlaying', false);
+
+      let parentController = this.get('targetObject');
+      parentController.send('playingAudio', this.get('isPlaying'));
     },
 
     prevSong() {
